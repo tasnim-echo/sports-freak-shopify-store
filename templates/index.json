@@ -8,13 +8,83 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {
-    "main": {
-      "type": "hello-world",
-      "settings": {}
-    }
-  },
-  "order": [
-    "main"
-  ]
+    "sections": {
+        "main": {
+            "type": "hero",
+            "settings": {
+                "media_type": "image",
+                "heading": "PLAY YOUR GAME",
+                "description": "Everything you need to perform at your best.",
+                "button_1_label": "SHOP NOW",
+                "button_1_link": "",
+                "button_2_label": "EXPLORE",
+                "button_2_link": "",
+                "text_alignment": "center",
+                "overlay_opacity": 35,
+                "height": 650
+            }
+        },
+        "sports_highlights_DRTX7H": {
+            "type": "sports-highlights",
+            "name": "Sports Highlights",
+            "settings": {
+                "heading": "Why Choose Sports Freak?"
+            }
+        },
+        "shop_by_sport_UyA9kF": {
+            "type": "shop-by-sport",
+            "blocks": {
+                "sport_EqMdCV": {
+                    "type": "sport",
+                    "settings": {
+                        "title": "Football",
+                        "collection": ""
+                    }
+                },
+                "sport_KkGDWr": {
+                    "type": "sport",
+                    "settings": {
+                        "title": "Football",
+                        "collection": ""
+                    }
+                },
+                "sport_zwxb6z": {
+                    "type": "sport",
+                    "settings": {
+                        "title": "Football",
+                        "collection": ""
+                    }
+                },
+                "sport_mA7EQf": {
+                    "type": "sport",
+                    "settings": {
+                        "title": "Football",
+                        "collection": ""
+                    }
+                }
+            },
+            "block_order": ["sport_EqMdCV", "sport_KkGDWr", "sport_zwxb6z", "sport_mA7EQf"],
+            "name": "Shop by Sport",
+            "settings": {
+                "heading": "SHOP BY SPORT",
+                "columns": "4"
+            }
+        },
+        "promo_banner_R8LaYm": {
+            "type": "promo-banner",
+            "name": "Promo Banner",
+            "settings": {
+                "eyebrow": "Built for athletes",
+                "heading": "TRAIN HARDER. PLAY BETTER.",
+                "description": "Gear built to help you perform at your best.",
+                "collection": "",
+                "button_label": "SHOP NOW",
+                "button_link": "",
+                "text_alignment": "center",
+                "overlay_opacity": 40,
+                "height": 500
+            }
+        }
+    },
+    "order": ["main", "sports_highlights_DRTX7H", "shop_by_sport_UyA9kF", "promo_banner_R8LaYm"]
 }

@@ -1,68 +1,156 @@
-{% comment %}
-  This section is used in the article template to render the article page, which
-  displays the full content of the blog post and can optionally include a
-  comments section for customers (not shown in this example).
+{{ 'article.css' | asset_url | stylesheet_tag }}
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/article
-{% endcomment %}
+<section class="article-page">
+  <div class="article-page__container">
+    <nav class="article-breadcrump">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span>/</span>
+      <a href="{{ blog.url }}">{{ blog.title }}</a>
+      <span>/</span>
+      <span>{{ article.title }}</span>
+    </nav>
 
-{% if article.image %}
-  {{ article.image | image_url: width: 1000 | image_tag }}
-{% endif %}
+    <div class="article-banner">
+      <div class="article-banner__content">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'title' %}
+              <h1 class="article-banner__title" {{ block.shopify_attributes }}>
+                {% if block.settings.title != blank %}
+                  {{ block.settings.title }}
+                {% else %}
+                  {{ article.title }}
+                {% endif %}
+              </h1>
 
-<h1>{{ article.title }}</h1>
+            {% when 'description' %}
+              <div class="article-banner__description" {{ block.shopify_attributes }}>
+                {% if block.settings.description != blank %}
+                  {{ block.settings.description }}
+                {% elsif article.excerpt != blank %}
+                  {{ article.excerpt }}
+                {% else %}
+                  {{ article.content | strip_html | truncate: 180 }}
+                {% endif %}
+              </div>
 
-{% assign date = article.published_at | time_tag: format: 'date' %}
-<p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
+            {% when 'author' %}
+              <div class="article-author" {{ block.shopify_attributes }}>
+                {% if block.settings.author_image != blank %}
+                  <div class="article-author__image">
+                    {{
+                      block.settings.author_image
+                      | image_url: width: 100
+                      | image_tag: alt: block.settings.author_name
+                    }}
+                  </div>
+                {% else %}
+                  <div class="article-author__image">
+                    <img
+                      src="{{ 'user-icon.svg' | asset_url }}"
+                      alt="{{ block.settings.author_name }}"
+                      width="40"
+                      height="40"
+                    >
+                  </div>
+                {% endif %}
+                <div class="article-author__info">
+                  {% if block.settings.author_name != blank %}
+                    <p class="article-author__name">{{ block.settings.author_name }}</p>
+                  {% elsif article.author != blank %}
+                    <p class="article-author__name">{{ article.author }}</p>
+                  {% endif %}
+                  {% if block.settings.date != blank %}
+                    <p class="article-author__date">{{ block.settings.date }}</p>
+                  {% else %}
+                    <p class="article-author__date">{{ article.published_at | date: '%B %d, %Y' }}</p>
+                  {% endif %}
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
 
-{{ article.content }}
-
-{% if blog.comments_enabled? %}
-  <h2>{{ 'blog.article_comments' | t }}</h2>
-
-  <div id="comments">
-    {% paginate article.comments by 10 %}
-      {% for comment in article.comments %}
-        <div>
-          <p>{{ comment.author }}</p>
-          <p>
-            {{- comment.created_at | time_tag: format: 'date' -}}
-          </p>
-          <p>{{ comment.content }}</p>
+      {% if section.settings.article_image != blank %}
+        <div class="article-banner__image">
+          {{ section.settings.article_image | image_url: width: 1200 | image_tag: alt: article.title }}
         </div>
-      {% endfor %}
-
-      {{ paginate | default_pagination: anchor: 'comments' }}
-    {% endpaginate %}
+      {% elsif article.image %}
+        <div class="article-banner__image">
+          {{ article.image | image_url: width: 1200 | image_tag: alt: article.title }}
+        </div>
+      {% endif %}
+    </div>
   </div>
-
-  {% form 'new_comment', article %}
-    <h2>{{ 'blog.comment_form_title' | t }}</h2>
-
-    {{ form.errors | default_errors }}
-
-    <div>
-      <label for="author">{{ 'blog.comment_form_name' | t }}</label>
-      <input type="text" name="comment[author]" id="author" value="{{ form.author }}" required>
-    </div>
-
-    <div>
-      <label for="email">{{ 'blog.comment_form_email' | t }}</label>
-      <input type="email" name="comment[email]" id="email" value="{{ form.email }}" required>
-    </div>
-
-    <div>
-      <label for="body">{{ 'blog.comment_form_body' | t }}</label>
-      <textarea name="comment[body]" id="body" required>{{ form.body }}</textarea>
-    </div>
-
-    <input type="submit" value="{{ 'blog.comment_form_submit' | t }}">
-  {% endform %}
-{% endif %}
-
+</section>
 {% schema %}
 {
-  "name": "t:general.article",
-  "settings": []
+  "name": "Article",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "article_image",
+      "label": "Article image",
+      "info": "Leave blank to use the article image."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "info": "Leave blank to use the article title."
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "info": "Leave blank to use the article excerpt or content."
+        }
+      ]
+    },
+    {
+      "type": "author",
+      "name": "Author",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "author_image",
+          "label": "Author image"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "label": "Author name",
+          "info": "Leave blank to use the article author."
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "info": "Leave blank to use the article published date."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article",
+      "blocks": [{ "type": "title" }, { "type": "description" }, { "type": "author" }]
+    }
+  ]
 }
 {% endschema %}

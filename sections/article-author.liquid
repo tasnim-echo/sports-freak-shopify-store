@@ -1,0 +1,41 @@
+{{ 'article-author.css' | asset_url | stylesheet_tag }}
+
+{% assign author = article.metafields.custom.article_author.value %}
+
+{% if author != blank %}
+  <section class="article-author">
+    <div class="article-author__container">
+      {% if author.image != blank %}
+        <div class="article-author__image">
+          {{ author.image | image_url: width: 120 | image_tag: alt: author.name }}
+        </div>
+      {% endif %}
+
+      <div class="article-author__content">
+        {% if author.name != blank %}
+          <h2 class="article-author__name">
+            {{ author.name }}
+          </h2>
+        {% endif %}
+
+        {% if author.bio != blank %}
+          <p class="article-author__bio">
+            {{ author.bio }}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Article author",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Article author"
+    }
+  ]
+}
+{% endschema %}

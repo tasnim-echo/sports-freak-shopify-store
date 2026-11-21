@@ -1,0 +1,76 @@
+{{ 'testimonials.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'slider.js' | asset_url }}" defer></script>
+
+<section
+  class="testimonials-section"
+  data-testimonials
+>
+  <div class="testimonials-container">
+    <div class="testimonials-header">
+      {% if section.settings.heading != blank %}
+        <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <p>{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+
+    <div class="swiper testimonials-swiper">
+      <div class="swiper-wrapper">
+        {% content_for 'blocks' %}
+      </div>
+    </div>
+
+    <div class="testimonials-controls">
+      <button
+        type="button"
+        class="testimonials-prev"
+        aria-label="Previous testimonials"
+      >
+        &larr;
+      </button>
+
+      <div class="testimonials-pagination"></div>
+
+      <button
+        type="button"
+        class="testimonials-next"
+        aria-label="Next testimonials"
+      >
+        &rarr;
+      </button>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What our customers say"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Real experiences from people who love our products."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@theme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials"
+    }
+  ]
+}
+{% endschema %}

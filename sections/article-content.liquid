@@ -1,0 +1,33 @@
+{{ 'article-content.css' | asset_url | stylesheet_tag }}
+
+<section class="article-content">
+  <div class="article-content__container">
+    <div class="article-content__body">
+      {% if section.settings.article_image != blank %}
+        {{ section.settings.article_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: article.title }}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'article-content__placeholder' }}
+      {% endif %}
+
+      {{ article.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Article content",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "article_image",
+      "label": "Article image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article content"
+    }
+  ]
+}
+{% endschema %}

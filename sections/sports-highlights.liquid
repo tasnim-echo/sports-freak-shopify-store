@@ -1,0 +1,139 @@
+{% assign highlights = metaobjects.sports_highlight.values %}
+
+<section class="sports-highlights">
+  <div class="sports-highlights__container">
+    {% if section.settings.heading != blank %}
+      <div class="sports-highlights__header">
+        <h2 class="sports-highlights__heading">
+          {{ section.settings.heading }}
+        </h2>
+      </div>
+    {% endif %}
+
+    {% if highlights != blank %}
+      <div class="sports-highlights__grid">
+        {% for highlight in highlights %}
+          <article class="sports-highlight">
+            {% if highlight.icon.value != blank %}
+              <div class="sports-highlight__icon">
+                {{ highlight.icon.value | image_url: width: 120 | image_tag: loading: 'lazy', width: 60, height: 60 }}
+              </div>
+            {% endif %}
+
+            {% if highlight.title.value != blank %}
+              <h3 class="sports-highlight__title">
+                {{ highlight.title.value }}
+              </h3>
+            {% endif %}
+
+            {% if highlight.description.value != blank %}
+              <div class="sports-highlight__description">
+                {{ highlight.description.value }}
+              </div>
+            {% endif %}
+
+            {% if highlight.link.value != blank %}
+              <a
+                href="{{ highlight.link.value }}"
+                class="sports-highlight__link"
+              >
+                Learn more
+              </a>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .sports-highlights {
+    padding: 60px 0;
+  }
+
+  .sports-highlights__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .sports-highlights__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .sports-highlights__heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .sports-highlights__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .sports-highlight {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .sports-highlight__icon img {
+    max-width: 60px;
+    margin-bottom: 15px;
+  }
+
+  .sports-highlight__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .sports-highlight__description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+  }
+
+  .sports-highlight__link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .sports-highlight__link:hover {
+    background-color: #0056b3;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sports Highlights",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why Choose Sports Freak?"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sports Highlights"
+    }
+  ]
+}
+{% endschema %}
