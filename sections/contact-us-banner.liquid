@@ -28,7 +28,7 @@
 
         {% when 'button' %}
           <a
-            href="mailto:{{ block.settings.email }}"
+            href="/pages/contact"
             class="contact-banner__button"
             {{ block.shopify_attributes }}
           >
@@ -36,7 +36,7 @@
             <span>→</span>
           </a>
       {% endcase %}
-    {% endfor %}
+    {%- endfor %}
   </div>
 
   <div class="contact-banner__image">
@@ -119,13 +119,7 @@
           "type": "text",
           "id": "label",
           "label": "Button Label",
-          "default": "Email Us"
-        },
-        {
-          "type": "text",
-          "id": "email",
-          "label": "Email Address",
-          "default": "tasnimmahmudnjr@gmail.com"
+          "default": "Contact Us"
         }
       ]
     }

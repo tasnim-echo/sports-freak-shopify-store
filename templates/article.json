@@ -8,13 +8,34 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {
-    "main": {
-      "type": "article",
-      "settings": {}
-    }
-  },
-  "order": [
-    "main"
-  ]
+    "sections": {
+        "article_Q8U3Kx": {
+            "type": "article",
+            "blocks": {
+                "title_iXfX3N": {
+                    "type": "title",
+                    "settings": {
+                        "title": ""
+                    }
+                },
+                "description_AY8eAc": {
+                    "type": "description",
+                    "settings": {
+                        "description": ""
+                    }
+                },
+                "author_mJmrHd": {
+                    "type": "author",
+                    "settings": {
+                        "author_name": "",
+                        "date": ""
+                    }
+                }
+            },
+            "block_order": ["title_iXfX3N", "description_AY8eAc", "author_mJmrHd"],
+            "name": "Article",
+            "settings": {}
+        }
+    },
+    "order": ["article_Q8U3Kx"]
 }
