@@ -84,7 +84,91 @@
                 "overlay_opacity": 40,
                 "height": 500
             }
+        },
+        "testimonials_6M4HLW": {
+            "type": "testimonials",
+            "blocks": {
+                "testimonial_wzzYVF": {
+                    "type": "testimonial",
+                    "name": "Testimonial",
+                    "settings": {
+                        "name": "Tasnim Mahmud",
+                        "review": "Amazing product and excellent quality. I absolutely love it!",
+                        "date": "November 21, 2026"
+                    },
+                    "blocks": {}
+                },
+                "testimonial_hTLa99": {
+                    "type": "testimonial",
+                    "settings": {
+                        "name": "Tasnim Mahmud",
+                        "review": "Amazing product and excellent quality. I absolutely love it!",
+                        "date": "November 21, 2026"
+                    },
+                    "blocks": {}
+                },
+                "testimonial_VMWf84": {
+                    "type": "testimonial",
+                    "settings": {
+                        "name": "Tasnim Mahmud",
+                        "review": "Amazing product and excellent quality. I absolutely love it!",
+                        "date": "November 21, 2026"
+                    },
+                    "blocks": {}
+                },
+                "testimonial_DEbJgK": {
+                    "type": "testimonial",
+                    "settings": {
+                        "name": "Tasnim Mahmud",
+                        "review": "Amazing product and excellent quality. I absolutely love it!",
+                        "date": "November 21, 2026"
+                    },
+                    "blocks": {}
+                }
+            },
+            "block_order": ["testimonial_wzzYVF", "testimonial_hTLa99", "testimonial_VMWf84", "testimonial_DEbJgK"],
+            "name": "Testimonials",
+            "settings": {
+                "heading": "What our customers say",
+                "subheading": "Real experiences from people who love our products."
+            }
+        },
+        "contact_us_banner_kGHn3k": {
+            "type": "contact-us-banner",
+            "blocks": {
+                "eyebrow_qFTBRb": {
+                    "type": "eyebrow",
+                    "settings": {
+                        "text": "Contact Us"
+                    }
+                },
+                "heading_dg7GyW": {
+                    "type": "heading",
+                    "settings": {
+                        "text": "Have a Question?"
+                    }
+                },
+                "subheading_MMwBGW": {
+                    "type": "subheading",
+                    "settings": {
+                        "text": "We're here to help. Reach out to us anytime."
+                    }
+                },
+                "button_xzjjWF": {
+                    "type": "button",
+                    "settings": {
+                        "label": "Email Us",
+                        "email": "tasnimmahmudnjr@gmail.com"
+                    }
+                }
+            },
+            "block_order": ["eyebrow_qFTBRb", "heading_dg7GyW", "subheading_MMwBGW", "button_xzjjWF"],
+            "name": "Contact Us Banner",
+            "settings": {
+                "background_color": "#F5F0EB",
+                "text_color": "#171717"
+            }
         }
     },
-    "order": ["main", "sports_highlights_DRTX7H", "shop_by_sport_UyA9kF", "promo_banner_R8LaYm"]
+    "order": ["main", "sports_highlights_DRTX7H", "shop_by_sport_UyA9kF", "promo_banner_R8LaYm", "testimonials_6M4HLW", "contact_us_banner_kGHn3k"]
 }

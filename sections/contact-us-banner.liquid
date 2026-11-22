@@ -1,0 +1,153 @@
+{{ 'contact-us-banner.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="contact-banner"
+  style="
+    --contact-bg: {{ section.settings.background_color }};
+    --contact-text: {{ section.settings.text_color }};
+  "
+>
+  <div class="contact-banner__content">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'eyebrow' %}
+          <div class="contact-banner__eyebrow" {{ block.shopify_attributes }}>
+            <span class="contact-banner__icon">✉</span>
+            <span>{{ block.settings.text }}</span>
+          </div>
+
+        {% when 'heading' %}
+          <h2 class="contact-banner__heading" {{ block.shopify_attributes }}>
+            {{ block.settings.text }}
+          </h2>
+
+        {% when 'subheading' %}
+          <p class="contact-banner__description" {{ block.shopify_attributes }}>
+            {{ block.settings.text }}
+          </p>
+
+        {% when 'button' %}
+          <a
+            href="mailto:{{ block.settings.email }}"
+            class="contact-banner__button"
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.label }}
+            <span>→</span>
+          </a>
+      {% endcase %}
+    {% endfor %}
+  </div>
+
+  <div class="contact-banner__image">
+    {% if section.settings.image != blank %}
+      {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy' }}
+    {% else %}
+      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact Us Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#F5F0EB"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#171717"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Contact Us"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading",
+          "default": "Have a Question?"
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "We're here to help. Reach out to us anytime."
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button Label",
+          "default": "Email Us"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email Address",
+          "default": "tasnimmahmudnjr@gmail.com"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Us Banner",
+      "blocks": [
+        {
+          "type": "eyebrow"
+        },
+        {
+          "type": "heading"
+        },
+        {
+          "type": "subheading"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

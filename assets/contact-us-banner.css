@@ -1,0 +1,118 @@
+.contact-banner {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: center;
+    gap: 40px;
+    padding: 65px 6%;
+    margin: 40px 20px;
+    background: var(--contact-bg, #f5f0eb);
+    color: var(--contact-text, #171717);
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.contact-banner__content {
+    max-width: 750px;
+}
+
+.contact-banner__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.contact-banner__icon {
+    font-size: 36px;
+}
+
+.contact-banner__heading {
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin: 0 0 20px;
+    color: inherit;
+}
+
+.contact-banner__description {
+    font-size: 19px;
+    line-height: 1.6;
+    margin: 0 0 32px;
+}
+
+.contact-banner__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    padding: 17px 30px;
+    background: #171717;
+    color: #fff;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.contact-banner__button:hover {
+    transform: translateY(-3px);
+    opacity: 0.85;
+}
+
+.contact-banner__button span {
+    font-size: 22px;
+}
+
+.contact-banner__image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
+
+.contact-banner__image img,
+.contact-banner__image svg {
+    display: block;
+    width: 100%;
+    max-width: 450px;
+    height: 300px;
+    object-fit: contain;
+}
+
+@media screen and (max-width: 749px) {
+    .contact-banner {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 40px 25px;
+        margin: 25px 15px;
+        text-align: center;
+    }
+
+    .contact-banner__eyebrow {
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    .contact-banner__heading {
+        font-size: 36px;
+        letter-spacing: -1px;
+    }
+
+    .contact-banner__description {
+        font-size: 15px;
+    }
+
+    .contact-banner__button {
+        padding: 14px 25px;
+        font-size: 15px;
+    }
+
+    .contact-banner__image img,
+    .contact-banner__image svg {
+        height: 200px;
+    }
+}

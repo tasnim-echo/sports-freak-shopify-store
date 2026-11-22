@@ -1,10 +1,12 @@
 <div class="testimonial-card" {{ block.shopify_attributes }}>
   <div class="testimonial-reviewer">
-    {% if block.settings.avatar != blank %}
-      <div class="testimonial-avatar">
+    <div class="testimonial-avatar">
+      {% if block.settings.avatar != blank %}
         {{ block.settings.avatar | image_url: width: 120 | image_tag: loading: 'lazy', alt: block.settings.name }}
-      </div>
-    {% endif %}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-avatar' }}
+      {% endif %}
+    </div>
 
     <div class="testimonial-reviewer-info">
       {% if block.settings.name != blank %}

@@ -801,56 +801,11 @@
 
         await response.json();
 
-        const sectionResponse = await fetch(`${window.Shopify.routes.root}?sections=sections--22612518142165__header`);
-
-        if (!sectionResponse.ok) {
-          throw new Error('Failed to update header');
+        if (typeof window.refreshCartDrawer !== 'function') {
+          throw new Error('Cart drawer is not initialized');
         }
 
-        const sections = await sectionResponse.json();
-
-        const parser = new DOMParser();
-
-        const newSection = parser.parseFromString(sections['sections--22612518142165__header'], 'text/html');
-
-        const newDrawer = newSection.querySelector('#CartDrawer');
-        const currentDrawer = document.getElementById('CartDrawer');
-
-        if (!newDrawer || !currentDrawer) {
-          return;
-        }
-
-        currentDrawer.innerHTML = newDrawer.innerHTML;
-
-        const newCartButton = newSection.querySelector('#CartDrawerOpen');
-        const currentCartButton = document.getElementById('CartDrawerOpen');
-
-        if (newCartButton && currentCartButton) {
-          currentCartButton.innerHTML = newCartButton.innerHTML;
-        }
-
-        const newCloseButton = currentDrawer.querySelector('#CartDrawerClose');
-
-        const newOverlay = currentDrawer.querySelector('#CartDrawerOverlay');
-
-        function closeDrawer() {
-          currentDrawer.classList.remove('is-open');
-          currentDrawer.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = '';
-        }
-
-        if (newCloseButton) {
-          newCloseButton.addEventListener('click', closeDrawer);
-        }
-
-        if (newOverlay) {
-          newOverlay.addEventListener('click', closeDrawer);
-        }
-
-        currentDrawer.classList.add('is-open');
-        currentDrawer.setAttribute('aria-hidden', 'false');
-
-        document.body.style.overflow = 'hidden';
+        await window.refreshCartDrawer({ open: true });
       } catch (error) {
         console.error('Add to cart error:', error);
       }

@@ -437,73 +437,13 @@
       currentCartPage.replaceWith(newCartPage);
 
       /*
-       * 3. Refresh header section
-       * This contains the cart drawer
+       * 3. Refresh header and cart drawer
        */
-      const headerResponse = await fetch(`${window.Shopify.routes.root}?sections=sections--22612518142165__header`);
-
-      if (!headerResponse.ok) {
-        throw new Error('Failed to refresh header');
+      if (typeof window.refreshCartDrawer !== 'function') {
+        throw new Error('Cart drawer is not initialized');
       }
 
-      const headerSections = await headerResponse.json();
-
-      const headerHtml = headerSections['sections--22612518142165__header'];
-
-      if (!headerHtml) {
-        throw new Error('Header section was not returned');
-      }
-
-      /*
-       * Convert header HTML into DOM
-       */
-      const newHeaderDocument = parser.parseFromString(headerHtml, 'text/html');
-
-      /*
-       * 4. Update existing cart drawer
-       */
-      const newDrawer = newHeaderDocument.querySelector('#CartDrawer');
-
-      const currentDrawer = document.querySelector('#CartDrawer');
-
-      if (newDrawer && currentDrawer) {
-        currentDrawer.innerHTML = newDrawer.innerHTML;
-
-        /*
-         * Reconnect close button
-         */
-        const newCloseButton = currentDrawer.querySelector('#CartDrawerClose');
-
-        /*
-         * Reconnect overlay
-         */
-        const newOverlay = currentDrawer.querySelector('#CartDrawerOverlay');
-
-        const closeDrawer = () => {
-          currentDrawer.classList.remove('is-open');
-          currentDrawer.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = '';
-        };
-
-        if (newCloseButton) {
-          newCloseButton.addEventListener('click', closeDrawer);
-        }
-
-        if (newOverlay) {
-          newOverlay.addEventListener('click', closeDrawer);
-        }
-      }
-
-      /*
-       * 5. Update cart icon/count
-       */
-      const newCartButton = newHeaderDocument.querySelector('#CartDrawerOpen');
-
-      const currentCartButton = document.querySelector('#CartDrawerOpen');
-
-      if (newCartButton && currentCartButton) {
-        currentCartButton.innerHTML = newCartButton.innerHTML;
-      }
+      await window.refreshCartDrawer({ open: true });
     } catch (error) {
       console.error('Cart update error:', error);
     }

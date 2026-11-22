@@ -538,6 +538,71 @@
       document.body.style.overflow = '';
     }
 
+    window.openCartDrawer = openCartDrawer;
+    window.closeCartDrawer = closeCartDrawer;
+
+    window.refreshCartDrawer = async ({ open = true } = {}) => {
+      const currentDrawer = document.getElementById('CartDrawer');
+
+      if (!currentDrawer) {
+        return false;
+      }
+
+      const sectionWrapper = currentDrawer.closest('[id^="shopify-section-"]');
+      const sectionId = sectionWrapper
+        ? sectionWrapper.id.replace('shopify-section-', '')
+        : 'sections--22612518142165__header';
+
+      const sectionResponse = await fetch(
+        `${window.Shopify.routes.root}?sections=${encodeURIComponent(sectionId)}`,
+        { headers: { Accept: 'application/json' } }
+      );
+
+      if (!sectionResponse.ok) {
+        throw new Error('Failed to refresh cart drawer');
+      }
+
+      const sections = await sectionResponse.json();
+      const sectionHtml = sections[sectionId];
+
+      if (!sectionHtml) {
+        throw new Error('Header section was not returned');
+      }
+
+      const newSection = new DOMParser().parseFromString(sectionHtml, 'text/html');
+      const newDrawer = newSection.querySelector('#CartDrawer');
+
+      if (!newDrawer) {
+        throw new Error('Cart drawer was not returned');
+      }
+
+      currentDrawer.innerHTML = newDrawer.innerHTML;
+
+      const newCartButton = newSection.querySelector('#CartDrawerOpen');
+      const currentCartButton = document.getElementById('CartDrawerOpen');
+
+      if (newCartButton && currentCartButton) {
+        currentCartButton.innerHTML = newCartButton.innerHTML;
+      }
+
+      const newCloseButton = currentDrawer.querySelector('#CartDrawerClose');
+      const newOverlay = currentDrawer.querySelector('#CartDrawerOverlay');
+
+      if (newCloseButton) {
+        newCloseButton.addEventListener('click', closeCartDrawer);
+      }
+
+      if (newOverlay) {
+        newOverlay.addEventListener('click', closeCartDrawer);
+      }
+
+      if (open) {
+        openCartDrawer();
+      }
+
+      return true;
+    };
+
     if (cartDrawerOpen) {
       cartDrawerOpen.addEventListener('click', openCartDrawer);
     }
@@ -1652,66 +1717,11 @@
 
         await response.json();
 
-        // Get fresh Header section from Shopify
-        const sectionResponse = await fetch(`${window.Shopify.routes.root}?sections=sections--22612518142165__header`);
-
-        if (!sectionResponse.ok) {
-          throw new Error('Failed to update header');
+        if (typeof window.refreshCartDrawer !== 'function') {
+          throw new Error('Cart drawer is not initialized');
         }
 
-        const sections = await sectionResponse.json();
-
-        const parser = new DOMParser();
-
-        const newSection = parser.parseFromString(sections['sections--22612518142165__header'], 'text/html');
-
-        // Refresh drawer
-        const newDrawer = newSection.querySelector('#CartDrawer');
-        const currentDrawer = document.getElementById('CartDrawer');
-
-        if (newDrawer && currentDrawer) {
-          currentDrawer.innerHTML = newDrawer.innerHTML;
-        }
-
-        // Refresh cart icon/count
-        const newCartButton = newSection.querySelector('#CartDrawerOpen');
-        const currentCartButton = document.getElementById('CartDrawerOpen');
-
-        if (newCartButton && currentCartButton) {
-          currentCartButton.innerHTML = newCartButton.innerHTML;
-        }
-
-        // Reconnect close button
-        const newCloseButton = currentDrawer.querySelector('#CartDrawerClose');
-
-        const newOverlay = currentDrawer.querySelector('#CartDrawerOverlay');
-
-        function closeDrawer() {
-          currentDrawer.classList.remove('is-open');
-          currentDrawer.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = '';
-        }
-
-        if (newCloseButton) {
-          newCloseButton.addEventListener('click', closeDrawer);
-        }
-
-        if (newOverlay) {
-          newOverlay.addEventListener('click', closeDrawer);
-        }
-
-        // Keep drawer open
-        currentDrawer.classList.add('is-open');
-        currentDrawer.setAttribute('aria-hidden', 'false');
-
-        document.body.style.overflow = '';
-
-        // If cart still has items, keep drawer open
-        const hasItems = currentDrawer.querySelector('.cart-drawer__item');
-
-        if (hasItems) {
-          document.body.style.overflow = 'hidden';
-        }
+        await window.refreshCartDrawer({ open: true });
       } catch (error) {
         console.error('Cart update error:', error);
       }
@@ -1761,7 +1771,8 @@
     {
       "type": "link_list",
       "id": "menu",
-      "label": "Main menu"
+      "label": "Main menu",
+      "default": "main-menu"
     },
     {
       "type": "link_list",
