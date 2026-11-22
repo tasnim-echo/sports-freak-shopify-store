@@ -1,0 +1,9 @@
+{
+    "sections": {
+        "template": {
+            "type": "contact",
+            "settings": []
+        }
+    },
+    "order": ["template"]
+}
